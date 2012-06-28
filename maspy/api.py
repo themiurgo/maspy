@@ -55,7 +55,7 @@ class MAS(object):
     def request(self, params):
         params['AppId'] = self.app_id
         print "PARAMS", params # FIXME logging
-        assert params['ResultObjects']
+        result_objects = params['ResultObjects']
         resp = requests.request("GET", self.base_url, params=params)
         try:
             resp_data = resp.json['d']
@@ -72,7 +72,7 @@ class MAS(object):
         # Print meaningful error message
         except AssertionError:
             print self.error_messages[result_code]
-        return resp_data
+        return resp_data[result_objects]
 
 class MASFacade(object):
     def __init__(self, app_id):
